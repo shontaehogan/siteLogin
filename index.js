@@ -59,7 +59,7 @@ let topSecret = [{
 
 // path to home
 app.get('/', function(req, res) {
-  if (!req.session.visitor) {
+  if (req.session.visitor) {
     res.redirect('/login')
   } else {
     res.render('home', {
