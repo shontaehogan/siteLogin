@@ -59,7 +59,7 @@ let topSecret = [{
 
 // path to home
 app.get('/', function(req, res) {
-  if (req.session.visitor) {
+  if (!req.session.visitor) {
     res.redirect('/login')
   } else {
     res.render('home', {
@@ -94,6 +94,7 @@ app.post('/login', function(req, res) {
   } else {
     let users = topSecret.filter(function(userCheck) {
       return userCheck.username === req.body.username;
+
     });
 
     // if that user does not exist, return an error on the login page
@@ -109,7 +110,8 @@ app.post('/login', function(req, res) {
 
     // if the passwords match, direct user to the homepage
     if (user.password === req.body.password) {
-      req.session.NotAUserMsg = user.username;
+      req.session.visitor = user.username;
+      console.log("You signed in!")
       res.redirect('/');
     } else {
       let notYourPassword = "Try again!"
